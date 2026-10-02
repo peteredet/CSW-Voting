@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extra Mile vote | Customer Service Week 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sign: #1D5C3B; --sign-deep: #134129; --amber: #F2B705; --asphalt: #2A2D31;
+    --muted: #59626B; --page: #E8ECE5; --paper: #FFFFFF; --line: #C7CEC4; --danger: #A8261D; --ok: #1D5C3B;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--page); color: var(--asphalt); font-family: 'Overpass', 'Segoe UI', system-ui, sans-serif; font-size: 17px; line-height: 1.5; }
+  .wrap { max-width: 520px; margin: 0 auto; padding: 20px 16px 56px; }
+
+  .sign { background: var(--sign); color: #fff; border-radius: 14px; padding: 20px 22px 22px;
+    box-shadow: inset 0 0 0 4px var(--sign), inset 0 0 0 7px #fff; margin-bottom: 18px; }
+  .sign .kicker { margin: 4px 0 0; font-weight: 600; font-size: .95rem; }
+  .sign h1 { margin: 2px 0 10px; font-weight: 800; font-size: clamp(2.6rem, 11vw, 3.4rem); line-height: .95; letter-spacing: -.015em; }
+  .sign .arrow { display: inline-block; width: .8em; height: .8em; vertical-align: .02em; margin-left: .15em; }
+  .sign p.lede { margin: 0; max-width: 34ch; }
+  .stripe { height: 6px; background: repeating-linear-gradient(90deg, var(--amber) 0 26px, transparent 26px 44px); border-radius: 3px; margin-top: 16px; }
+
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 18px; }
+  h2 { font-size: 1.35rem; line-height: 1.2; margin: 0 0 6px; font-weight: 800; }
+  .sub { margin: 0 0 18px; color: var(--muted); }
+
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: -4px 0 18px; border-bottom: 2px solid var(--line); }
+  .tab { background: none; border: 0; padding: 10px 4px; font-weight: 700; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .tab[aria-selected=true] { color: var(--sign); border-bottom-color: var(--sign); }
+
+  label.field { display: block; font-weight: 600; margin: 0 0 6px; }
+  .hint { display: block; font-size: .88rem; color: var(--muted); margin-top: 4px; }
+  input[type=text], input[type=email], input[type=password], input[type=search] {
+    width: 100%; font: inherit; font-size: 1.05rem; padding: 12px 14px; border: 2px solid var(--line);
+    border-radius: 8px; background: #fff; color: var(--asphalt); }
+  input:focus { outline: none; border-color: var(--sign); box-shadow: 0 0 0 3px rgba(29,92,59,.2); }
+  .row { margin-bottom: 16px; }
+  .pw { position: relative; }
+  .pw input { padding-right: 74px; }
+  .reveal { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: 0;
+    color: var(--sign); font-weight: 700; padding: 8px 8px; font-size: .9rem; }
+  .match { font-size: .88rem; margin-top: 4px; min-height: 1.3em; }
+  .match.bad { color: var(--danger); } .match.good { color: var(--ok); }
+
+  button { font: inherit; cursor: pointer; }
+  .btn { display: block; width: 100%; padding: 14px 18px; border-radius: 8px; border: 0; background: var(--sign);
+    color: #fff; font-weight: 800; font-size: 1.05rem; }
+  .btn:hover { background: var(--sign-deep); }
+  .btn:disabled { background: #9AA79E; cursor: not-allowed; }
+  .btn.ghost { background: transparent; color: var(--sign); border: 2px solid var(--sign); margin-top: 10px; }
+  .linkbtn { background: none; border: 0; color: var(--sign); font-weight: 700; padding: 6px 2px; text-decoration: underline; }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+  .msg { display: none; margin: 0 0 14px; padding: 10px 12px; border-radius: 4px; font-weight: 600; }
+  .msg.show { display: block; }
+  .msg.error { border-left: 4px solid var(--danger); background: #FBEDEC; color: var(--danger); }
+  .msg.info { border-left: 4px solid var(--sign); background: #EAF3EC; color: var(--sign-deep); }
+
+  .notice { font-size: .9rem; background: #FFF7DA; border: 1px solid #EBD68A; border-radius: 8px; padding: 10px 12px; margin: 0 0 16px; }
+
+  .slot { display: grid; grid-template-columns: 44px 1fr; gap: 12px; margin-bottom: 14px; align-items: start; }
+  .post { background: var(--sign); color: #fff; border-radius: 6px 6px 3px 3px; height: 54px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; font-weight: 800; line-height: 1; }
+  .post small { font-size: .62rem; font-weight: 600; opacity: .85; margin-bottom: 3px; }
+  .post span { font-size: 1.35rem; }
+  .slot.filled .post { background: var(--amber); color: var(--asphalt); }
+  .picked { display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 2px solid var(--sign);
+    border-radius: 8px; padding: 10px 12px; min-height: 54px; background: #F2F7F3; }
+  .picked strong { font-weight: 600; }
+  .you { color: var(--muted); font-weight: 400; }
+
+  .combo { position: relative; }
+  .list { list-style: none; margin: 6px 0 0; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: #fff; max-height: 264px; overflow-y: auto; }
+  .list li { padding: 10px 10px; border-radius: 6px; cursor: pointer; }
+  .list li[aria-selected=true], .list li:hover { background: #E3EEE6; }
+  .list li.empty { color: var(--muted); cursor: default; background: none; }
+  .rules { font-size: .92rem; color: var(--muted); margin: 0 0 16px; }
+
+  .review { list-style: none; padding: 0; margin: 0 0 18px; }
+  .review li { padding: 10px 0; border-bottom: 1px solid var(--line); display: flex; gap: 12px; }
+  .review li b { color: var(--sign); width: 1.2em; }
+  .check { width: 56px; height: 56px; margin-bottom: 8px; }
+  .foot { margin-top: 18px; font-size: .85rem; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; }
+  .sr { position: absolute; left: -9999px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="sign" aria-label="Customer Service Week 2026">
+    <p class="kicker">Customer Service Week 2026</p>
+    <h1>Extra Mile <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 11h5v11h6V11h5z" fill="#fff"/></svg></h1>
+    <p class="lede">Vote for the colleagues who went further than the job asked.</p>
+    <div class="stripe" aria-hidden="true"></div>
+  </header>
+
+  <!-- Loading -->
+  <section class="panel" id="v-loading"><p class="sub" style="margin:0">Loading…</p></section>
+
+  <!-- Register / sign in -->
+  <section class="panel" id="v-auth" hidden>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-register" aria-selected="true">Register</button>
+      <button class="tab" role="tab" id="tab-signin" aria-selected="false">Sign in</button>
+    </div>
+    <p class="msg" id="auth-msg" role="alert"></p>
+
+    <form id="f-register" novalidate>
+      <div class="row">
+        <label class="field" for="reg-name-search">Your name</label>
+        <div id="reg-name"></div>
+      </div>
+      <div class="row">
+        <label class="field" for="reg-email">Office email</label>
+        <input type="email" id="reg-email" autocomplete="email" spellcheck="false" required>
+        <span class="hint">We'll send a confirmation link here. It must be your email on the staff record.</span>
+      </div>
+      <div class="row">
+        <label class="field" for="reg-pw">Create a password</label>
+        <div class="pw"><input type="password" id="reg-pw" autocomplete="new-password" minlength="8" required>
+          <button type="button" class="reveal" data-for="reg-pw" aria-pressed="false">Show</button></div>
+        <span class="hint">At least 8 characters.</span>
+      </div>
+      <div class="row">
+        <label class="field" for="reg-pw2">Type the password again</label>
+        <div class="pw"><input type="password" id="reg-pw2" autocomplete="new-password" required>
+          <button type="button" class="reveal" data-for="reg-pw2" aria-pressed="false">Show</button></div>
+        <div class="match" id="reg-match" aria-live="polite"></div>
+      </div>
+      <button class="btn" type="submit" id="reg-btn">Register</button>
+    </form>
+
+    <form id="f-signin" novalidate hidden>
+      <div class="row">
+        <label class="field" for="si-email">Office email</label>
+        <input type="email" id="si-email" autocomplete="email" spellcheck="false" required>
+      </div>
+      <div class="row">
+        <label class="field" for="si-pw">Password</label>
+        <div class="pw"><input type="password" id="si-pw" autocomplete="current-password" required>
+          <button type="button" class="reveal" data-for="si-pw" aria-pressed="false">Show</button></div>
+      </div>
+      <button class="btn" type="submit" id="si-btn">Sign in</button>
+      <p style="margin:12px 0 0"><button type="button" class="linkbtn" id="forgot-btn">Forgot your password?</button>
+        <button type="button" class="linkbtn" id="resend-btn" hidden>Resend confirmation email</button></p>
+    </form>
+  </section>
+
+  <!-- Check email -->
+  <section class="panel" id="v-checkmail" hidden>
+    <h2>Check your email</h2>
+    <p class="sub">We sent a confirmation link to <strong id="cm-email"></strong>. Open it on this device to finish registering, then sign in. If it isn't there in a few minutes, check spam or junk.</p>
+    <button class="btn ghost" type="button" id="cm-back">Back to sign in</button>
+  </section>
+
+  <!-- Set new password (after reset link) -->
+  <section class="panel" id="v-newpw" hidden>
+    <h2>Set a new password</h2>
+    <p class="msg" id="np-msg" role="alert"></p>
+    <form id="f-newpw" novalidate>
+      <div class="row">
+        <label class="field" for="np-pw">New password</label>
+        <div class="pw"><input type="password" id="np-pw" autocomplete="new-password" minlength="8" required>
+          <button type="button" class="reveal" data-for="np-pw" aria-pressed="false">Show</button></div>
+      </div>
+      <div class="row">
+        <label class="field" for="np-pw2">Type it again</label>
+        <div class="pw"><input type="password" id="np-pw2" autocomplete="new-password" required>
+          <button type="button" class="reveal" data-for="np-pw2" aria-pressed="false">Show</button></div>
+        <div class="match" id="np-match" aria-live="polite"></div>
+      </div>
+      <button class="btn" type="submit" id="np-btn">Save password</button>
+    </form>
+  </section>
+
+  <!-- Not linked / closed -->
+  <section class="panel" id="v-blocked" hidden>
+    <h2 id="bl-title"></h2>
+    <p class="sub" id="bl-text"></p>
+  </section>
+
+  <!-- Vote -->
+  <section class="panel" id="v-pick" hidden>
+    <h2 id="hello">Hi</h2>
+    <p class="rules">Pick three different people. One of them can be you. You can't change your votes after you cast them.</p>
+    <div id="slots"></div>
+    <button class="btn" type="button" id="review-btn" disabled>Review my votes</button>
+  </section>
+
+  <section class="panel" id="v-review" hidden>
+    <h2>Check your votes</h2>
+    <p class="sub">Once cast, these are final.</p>
+    <p class="msg" id="cast-msg" role="alert"></p>
+    <ol class="review" id="review-list"></ol>
+    <button class="btn" type="button" id="cast-btn">Cast my votes</button>
+    <button class="btn ghost" type="button" id="back-btn">Change a vote</button>
+  </section>
+
+  <section class="panel" id="v-done" hidden>
+    <svg class="check" viewBox="0 0 56 56" aria-hidden="true"><rect width="56" height="56" rx="10" fill="#1D5C3B"/><path d="M15 29l9 9 17-19" stroke="#F2B705" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h2>Your votes are cast</h2>
+    <p class="sub">Thank you. Winners will be announced during Customer Service Week.</p>
+  </section>
+
+  <div class="foot"><span>One person, one session, three votes.</span><span><button type="button" class="linkbtn" id="signout" hidden>Sign out</button> <a class="linkbtn" id="admin-link" href="admin.html">Admin</a></span></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+(function () {
+  var cfg = window.CSW_CONFIG || {};
+  var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+  var $ = function (id) { return document.getElementById(id); };
+  var VIEWS = ['v-loading', 'v-auth', 'v-checkmail', 'v-newpw', 'v-blocked', 'v-pick', 'v-review', 'v-done'];
+  var staff = [];                 // [{staff_id, name}]
+  var nameOf = {};
+  var me = null;                  // my_status()
+  var regPick = null;             // staff_id chosen at registration
+  var picks = [null, null, null]; // staff_ids
+  var recovering = false;
+
+  function show(v) { VIEWS.forEach(function (x) { $(x).hidden = x !== v; }); $('signout').hidden = !(v === 'v-pick' || v === 'v-review' || v === 'v-done' || v === 'v-blocked'); window.scrollTo(0, 0); }
+  function msg(el, text, kind) { el.textContent = text || ''; el.className = 'msg' + (text ? ' show ' + (kind || 'error') : ''); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
+  function busy(btn, on, label) { btn.disabled = on; if (label) btn.textContent = label; }
+  function errText(e) { return ((e && e.message) || String(e || 'Something went wrong.')).replace(/^(Exception|Error):\s*/i, ''); }
+
+  /* ---------- password reveal + match ---------- */
+  document.querySelectorAll('.reveal').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var inp = $(b.getAttribute('data-for'));
+      var on = inp.type === 'password';
+      inp.type = on ? 'text' : 'password';
+      b.textContent = on ? 'Hide' : 'Show';
+      b.setAttribute('aria-pressed', String(on));
+    });
+  });
+  function watchMatch(a, b, out) {
+    function upd() {
+      var x = $(a).value, y = $(b).value;
+      if (!y) { $(out).textContent = ''; $(out).className = 'match'; return; }
+      var ok = x === y;
+      $(out).textContent = ok ? 'Passwords match.' : 'Passwords don\'t match yet.';
+      $(out).className = 'match ' + (ok ? 'good' : 'bad');
+    }
+    $(a).addEventListener('input', upd); $(b).addEventListener('input', upd);
+  }
+  watchMatch('reg-pw', 'reg-pw2', 'reg-match');
+  watchMatch('np-pw', 'np-pw2', 'np-match');
+
+  /* ---------- searchable list ---------- */
+  function combo(opts) {
+    // opts: { mount, id, label, options(): [{id,label}], onChoose(id) }
+    var listId = opts.id + '-list';
+    opts.mount.innerHTML =
+      '<div class="combo"><input type="search" id="' + opts.id + '" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="' + listId + '" placeholder="Type a name" autocomplete="off"' + (opts.label ? ' aria-label="' + esc(opts.label) + '"' : '') + '>' +
+      '<ul class="list" id="' + listId + '" role="listbox" hidden></ul></div>';
+    var input = opts.mount.querySelector('input'), ul = opts.mount.querySelector('ul');
+    var active = -1, current = [];
+    function draw() {
+      var q = input.value.trim().toLowerCase();
+      current = opts.options().filter(function (o) {
+        if (!q) return true;
+        var n = o.name.toLowerCase();
+        return n.split(/\s+/).some(function (w) { return w.indexOf(q) === 0; }) || n.indexOf(q) !== -1;
+      });
+      if (active >= current.length) active = current.length - 1;
+      ul.innerHTML = current.length
+        ? current.map(function (o, k) { return '<li role="option" id="' + listId + '-' + k + '" aria-selected="' + (k === active) + '" data-k="' + k + '">' + o.html + '</li>'; }).join('')
+        : '<li class="empty">No one matches "' + esc(input.value) + '"</li>';
+      ul.hidden = false; input.setAttribute('aria-expanded', 'true');
+      if (active >= 0) { input.setAttribute('aria-activedescendant', listId + '-' + active); var el = $(listId + '-' + active); if (el) el.scrollIntoView({ block: 'nearest' }); }
+      else input.removeAttribute('aria-activedescendant');
+    }
+    function close() { ul.hidden = true; input.setAttribute('aria-expanded', 'false'); active = -1; }
+    function choose(k) { if (current[k]) opts.onChoose(current[k].id); }
+    input.addEventListener('focus', draw);
+    input.addEventListener('input', function () { active = -1; draw(); });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, current.length - 1); draw(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); draw(); }
+      else if (e.key === 'Enter') { e.preventDefault(); choose(active >= 0 ? active : (current.length === 1 ? 0 : -1)); }
+      else if (e.key === 'Escape') close();
+    });
+    input.addEventListener('blur', function () { setTimeout(close, 150); });
+    ul.addEventListener('mousedown', function (e) { var li = e.target.closest('li[data-k]'); if (!li) return; e.preventDefault(); choose(Number(li.getAttribute('data-k'))); });
+    return input;
+  }
+
+  function renderRegName() {
+    var mount = $('reg-name');
+    if (regPick) {
+      mount.innerHTML = '<div class="picked"><strong>' + esc(nameOf[regPick]) + '</strong><button type="button" class="linkbtn">Change</button></div>';
+      mount.querySelector('button').addEventListener('click', function () { regPick = null; renderRegName(); $('reg-name-search').focus(); });
+      return;
+    }
+    combo({ mount: mount, id: 'reg-name-search', options: function () { return staff.map(function (s) { return { id: s.staff_id, name: s.name, html: esc(s.name) }; }); },
+      onChoose: function (id) { regPick = id; renderRegName(); $('reg-email').focus(); } });
+  }
+
+  /* ---------- auth tabs ---------- */
+  function tab(which) {
+    var reg = which === 'register';
+    $('tab-register').setAttribute('aria-selected', String(reg));
+    $('tab-signin').setAttribute('aria-selected', String(!reg));
+    $('f-register').hidden = !reg; $('f-signin').hidden = reg;
+    msg($('auth-msg'), '');
+  }
+  $('tab-register').addEventListener('click', function () { tab('register'); });
+  $('tab-signin').addEventListener('click', function () { tab('signin'); });
+  $('cm-back').addEventListener('click', function () { show('v-auth'); tab('signin'); });
+
+  $('f-register').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var m = $('auth-msg'), btn = $('reg-btn');
+    var email = $('reg-email').value.trim().toLowerCase(), pw = $('reg-pw').value, pw2 = $('reg-pw2').value;
+    if (!regPick) return msg(m, 'Choose your name from the list.');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return msg(m, 'Enter a valid office email.');
+    if (pw.length < 8) return msg(m, 'Your password needs at least 8 characters.');
+    if (pw !== pw2) return msg(m, 'The two passwords don\'t match. Use Show to check what you typed.');
+    msg(m, ''); busy(btn, true, 'Checking…');
+    try {
+      var chk = await sb.rpc('registration_check', { p_staff_id: regPick, p_email: email });
+      if (chk.error) throw chk.error;
+      var r = chk.data;
+      if (r === 'email_mismatch') throw new Error('That email doesn\'t match the staff record for ' + nameOf[regPick] + '. Use your office email, or contact the organisers.');
+      if (r === 'no_email_on_file') throw new Error('There\'s no email on file for ' + nameOf[regPick] + ' yet. Contact the organisers.');
+      if (r === 'already_registered') { tab('signin'); $('si-email').value = email; throw new Error('You\'re already registered. Sign in instead.'); }
+      if (r !== 'ok') throw new Error('Choose your name from the list.');
+      var su = await sb.auth.signUp({ email: email, password: pw, options: { emailRedirectTo: location.origin + location.pathname } });
+      if (su.error) throw su.error;
+      if (su.data.user && su.data.user.identities && su.data.user.identities.length === 0) {
+        tab('signin'); $('si-email').value = email; throw new Error('You\'re already registered. Sign in instead.');
+      }
+      if (su.data.session) { await route(); return; } // email confirmation is off (not recommended)
+      $('cm-email').textContent = email;
+      show('v-checkmail');
+    } catch (err) { msg($('auth-msg'), errText(err)); }
+    finally { busy(btn, false, 'Register'); }
+  });
+
+  $('f-signin').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var m = $('auth-msg'), btn = $('si-btn');
+    var email = $('si-email').value.trim().toLowerCase(), pw = $('si-pw').value;
+    if (!email || !pw) return msg(m, 'Enter your email and password.');
+    $('resend-btn').hidden = true; msg(m, ''); busy(btn, true, 'Signing in…');
+    var res = await sb.auth.signInWithPassword({ email: email, password: pw });
+    busy(btn, false, 'Sign in');
+    if (res.error) {
+      if (/confirm/i.test(res.error.message)) { $('resend-btn').hidden = false; return msg(m, 'Confirm your email first. Open the link we sent you, or resend it below.'); }
+      return msg(m, 'That email and password don\'t match. Use Show to check what you typed.');
+    }
+    await route();
+  });
+
+  $('resend-btn').addEventListener('click', async function () {
+    var email = $('si-email').value.trim().toLowerCase();
+    var r = await sb.auth.resend({ type: 'signup', email: email, options: { emailRedirectTo: location.origin + location.pathname } });
+    msg($('auth-msg'), r.error ? errText(r.error) : 'Confirmation email sent to ' + email + '.', r.error ? 'error' : 'info');
+  });
+
+  $('forgot-btn').addEventListener('click', async function () {
+    var email = $('si-email').value.trim().toLowerCase();
+    if (!email) return msg($('auth-msg'), 'Enter your office email above, then press Forgot your password.');
+    var r = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+    msg($('auth-msg'), r.error ? errText(r.error) : 'If ' + email + ' is registered, a reset link is on its way.', r.error ? 'error' : 'info');
+  });
+
+  $('f-newpw').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var pw = $('np-pw').value, pw2 = $('np-pw2').value, m = $('np-msg');
+    if (pw.length < 8) return msg(m, 'Your password needs at least 8 characters.');
+    if (pw !== pw2) return msg(m, 'The two passwords don\'t match. Use Show to check what you typed.');
+    busy($('np-btn'), true, 'Saving…');
+    var r = await sb.auth.updateUser({ password: pw });
+    busy($('np-btn'), false, 'Save password');
+    if (r.error) return msg(m, errText(r.error));
+    recovering = false;
+    history.replaceState(null, '', location.pathname);
+    await route();
+  });
+
+  $('signout').addEventListener('click', async function () { await sb.auth.signOut(); picks = [null, null, null]; show('v-auth'); tab('signin'); });
+
+  /* ---------- voting ---------- */
+  function label(id) { return id === me.staff_id ? esc(nameOf[id]) + ' <span class="you">(you)</span>' : esc(nameOf[id]); }
+
+  function renderSlots() {
+    var wrap = $('slots'); wrap.innerHTML = '';
+    picks.forEach(function (p, i) {
+      var slot = document.createElement('div');
+      slot.className = 'slot' + (p ? ' filled' : '');
+      slot.innerHTML = '<div class="post" aria-hidden="true"><small>VOTE</small><span>' + (i + 1) + '</span></div><div></div>';
+      var body = slot.lastChild;
+      if (p) {
+        body.innerHTML = '<div class="picked"><strong>' + label(p) + '</strong><button type="button" class="linkbtn" aria-label="Change vote ' + (i + 1) + '">Change</button></div>';
+        body.querySelector('button').addEventListener('click', function () { picks[i] = null; renderSlots(); var inp = $('pick-' + i); if (inp) inp.focus(); });
+      } else {
+        combo({ mount: body, id: 'pick-' + i, label: 'Vote ' + (i + 1), options: function () {
+          var taken = picks.filter(function (x, j) { return x && j !== i; });
+          var list = staff.filter(function (s) { return taken.indexOf(s.staff_id) === -1; });
+          var k = list.findIndex(function (s) { return s.staff_id === me.staff_id; });
+          if (k > 0) list.unshift(list.splice(k, 1)[0]);
+          return list.map(function (s) { return { id: s.staff_id, name: s.name, html: label(s.staff_id) }; });
+        }, onChoose: function (id) {
+          picks[i] = id; renderSlots();
+          var next = picks.indexOf(null);
+          if (next !== -1) $('pick-' + next).focus(); else $('review-btn').focus();
+        } });
+      }
+      wrap.appendChild(slot);
+    });
+    $('review-btn').disabled = picks.some(function (p) { return !p; });
+  }
+
+  $('review-btn').addEventListener('click', function () {
+    $('review-list').innerHTML = picks.map(function (p, i) { return '<li><b>' + (i + 1) + '</b><span>' + label(p) + '</span></li>'; }).join('');
+    msg($('cast-msg'), ''); show('v-review');
+  });
+  $('back-btn').addEventListener('click', function () { show('v-pick'); });
+  $('cast-btn').addEventListener('click', async function () {
+    var btn = $('cast-btn'); busy(btn, true, 'Casting…'); $('back-btn').disabled = true;
+    var r = await sb.rpc('cast_votes', { p_nominees: picks });
+    busy(btn, false, 'Cast my votes'); $('back-btn').disabled = false;
+    if (r.error) return msg($('cast-msg'), errText(r.error));
+    show('v-done');
+  });
+
+  function blocked(title, text) { $('bl-title').textContent = title; $('bl-text').textContent = text; show('v-blocked'); }
+
+  /* ---------- routing ---------- */
+  async function route() {
+    if (recovering) { show('v-newpw'); return; }
+    var s = await sb.auth.getSession();
+    if (!s.data.session) { show('v-auth'); return; }
+    var r = await sb.rpc('my_status');
+    if (r.error) return blocked('Something went wrong', errText(r.error));
+    me = r.data;
+    if (!me.linked) return blocked('Your account isn\'t on the staff list', 'You signed in with an email that doesn\'t match a staff record. Sign out and use your office email, or contact the organisers.');
+    if (me.has_voted) return show('v-done');
+    if (!me.voting_open) return blocked('Voting isn\'t open yet', 'You\'re registered, ' + me.name.split(' ')[0] + '. Come back here when voting opens and sign in to cast your three votes.');
+    $('hello').textContent = 'Hi, ' + me.name.split(' ')[0] + '. Who went the extra mile?';
+    renderSlots(); show('v-pick');
+  }
+
+  sb.auth.onAuthStateChange(function (event) {
+    if (event === 'PASSWORD_RECOVERY') { recovering = true; show('v-newpw'); }
+  });
+
+  (async function init() {
+    var r = await sb.rpc('get_staff_list');
+    if (r.error) return blocked('The vote can\'t load', 'Check your connection and refresh the page.');
+    staff = r.data; staff.forEach(function (s) { nameOf[s.staff_id] = s.name; });
+    renderRegName();
+    if (/error_description=/.test(location.hash)) {
+      var d = decodeURIComponent((location.hash.match(/error_description=([^&]+)/) || [])[1] || '').replace(/\+/g, ' ');
+      show('v-auth'); tab('signin'); msg($('auth-msg'), 'That link didn\'t work: ' + d + '. Request a new one below.');
+      history.replaceState(null, '', location.pathname); return;
+    }
+    // Give supabase-js a moment to process confirmation / recovery links in the URL.
+    setTimeout(route, /access_token|code=|type=/.test(location.href) ? 400 : 0);
+  })();
+})();
+</script>
+</body>
+</html>

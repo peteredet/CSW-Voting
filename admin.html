@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin | Extra Mile vote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --sign: #1D5C3B; --sign-deep: #134129; --amber: #F2B705; --asphalt: #2A2D31; --muted: #59626B;
+    --page: #E8ECE5; --paper: #FFFFFF; --line: #C7CEC4; --danger: #A8261D; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--page); color: var(--asphalt); font-family: 'Overpass', 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.45; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 18px 16px 48px; }
+  .bar { background: var(--sign); color: #fff; border-radius: 12px; padding: 14px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
+    box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 5px #fff; }
+  .bar h1 { margin: 0; font-size: 1.5rem; font-weight: 800; flex: 1 1 auto; }
+  .live { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: .9rem; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #9AA79E; }
+  .live.on .dot { background: var(--amber); box-shadow: 0 0 0 0 rgba(242,183,5,.7); animation: pulse 2s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(242,183,5,0); } 100% { box-shadow: 0 0 0 0 rgba(242,183,5,0); } }
+  @media (prefers-reduced-motion: reduce) { .live.on .dot { animation: none; } }
+
+  button { font: inherit; cursor: pointer; }
+  .btn { padding: 10px 16px; border-radius: 8px; border: 0; background: var(--sign); color: #fff; font-weight: 800; }
+  .btn.light { background: #fff; color: var(--sign); }
+  .btn.ghost { background: transparent; color: var(--sign); border: 2px solid var(--sign); }
+  .btn.danger { background: transparent; color: var(--danger); border: 2px solid var(--danger); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+  .stat { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .stat b { display: block; font-size: 1.9rem; font-weight: 800; line-height: 1.1; }
+  .stat span { color: var(--muted); font-size: .9rem; }
+
+  .grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+  .panel h2 { margin: 0 0 4px; font-size: 1.2rem; font-weight: 800; }
+  .panel .sub { margin: 0 0 12px; color: var(--muted); font-size: .9rem; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+
+  .leader { display: grid; grid-template-columns: 28px 1fr auto; gap: 4px 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid #E4E8E2; }
+  .leader .rank { font-weight: 800; color: var(--muted); text-align: right; }
+  .leader.top .rank { color: var(--sign); }
+  .leader .who { min-width: 0; }
+  .leader .who strong { font-weight: 600; }
+  .leader .who small { display: block; color: var(--muted); font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .leader .n { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+  .leader .n small { display: block; font-weight: 400; color: var(--muted); font-size: .75rem; }
+  .track { grid-column: 2 / 4; height: 8px; background: #EEF1EC; border-radius: 4px; overflow: hidden; display: flex; }
+  .track i { display: block; height: 100%; background: var(--sign); transition: width .4s ease; }
+  .track i.self { background: var(--amber); }
+  .legend { font-size: .82rem; color: var(--muted); display: flex; gap: 14px; margin-bottom: 6px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+  .flash { animation: flash 1.2s ease; }
+  @keyframes flash { from { background: #FFF3C4; } to { background: transparent; } }
+
+  .filter { width: 100%; font: inherit; padding: 9px 12px; border: 2px solid var(--line); border-radius: 8px; margin-bottom: 8px; }
+  .feed { max-height: 640px; overflow-y: auto; }
+  .ballot { padding: 10px 0; border-bottom: 1px solid #E4E8E2; }
+  .ballot .meta { display: flex; justify-content: space-between; gap: 10px; }
+  .ballot .meta strong { font-weight: 600; }
+  .ballot .meta time { color: var(--muted); font-size: .82rem; white-space: nowrap; }
+  .ballot .dept { color: var(--muted); font-size: .8rem; }
+  .ballot ol { margin: 6px 0 0; padding-left: 20px; }
+  .ballot li .self { color: #8A6A00; font-size: .8rem; font-weight: 700; margin-left: 4px; }
+
+  .login { max-width: 420px; margin: 40px auto; }
+  .login label { display: block; font-weight: 600; margin: 12px 0 6px; }
+  .login input { width: 100%; font: inherit; padding: 11px 13px; border: 2px solid var(--line); border-radius: 8px; }
+  .err { color: var(--danger); font-weight: 600; min-height: 1.4em; margin: 10px 0; }
+  .switch { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; }
+  .switch input { width: 46px; height: 26px; appearance: none; background: rgba(255,255,255,.35); border-radius: 13px; position: relative; cursor: pointer; margin: 0; }
+  .switch input::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: left .2s; }
+  .switch input:checked { background: var(--amber); }
+  .switch input:checked::after { left: 23px; }
+  .tools { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  [hidden] { display: none !important; }
+  body.viewer .owner-only { display: none !important; }
+  body.viewer .grid { grid-template-columns: minmax(0, 760px); justify-content: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="panel login" id="v-login">
+    <h2>Admin sign in</h2>
+    <p class="sub">Use the account you registered on the voting page. Your email must be in the admins table.</p>
+    <form id="f-login">
+      <label for="a-email">Email</label>
+      <input type="email" id="a-email" autocomplete="email" required>
+      <label for="a-pw">Password</label>
+      <input type="password" id="a-pw" autocomplete="current-password" required>
+      <p class="err" id="a-err" role="alert"></p>
+      <button class="btn" type="submit" id="a-btn">Sign in</button>
+    </form>
+  </section>
+
+  <div id="v-dash" hidden>
+    <header class="bar">
+      <h1 id="dash-title">Extra Mile vote: live results</h1>
+      <span class="live" id="live"><span class="dot"></span><span id="live-text">Connecting…</span></span>
+      <label class="switch"><input type="checkbox" id="open-toggle"> <span id="open-text">Voting closed</span></label>
+      <button class="btn light owner-only" type="button" id="dl-btn">Download CSV</button>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><b id="s-voted">0</b><span>have voted</span></div>
+      <div class="stat"><b id="s-turnout">0%</b><span>turnout of all staff</span></div>
+      <div class="stat"><b id="s-reg">0</b><span>registered and confirmed</span></div>
+      <div class="stat"><b id="s-email">0</b><span>staff with email on file</span></div>
+      <div class="stat"><b id="s-staff">0</b><span>staff on the list</span></div>
+    </div>
+
+    <div class="grid" id="grid">
+      <section class="panel">
+        <div class="head"><h2>Leaderboard</h2><button class="btn ghost" type="button" id="more-btn">Show everyone</button></div>
+        <p class="sub" id="board-sub">Ranked by votes from colleagues.</p>
+        <div class="legend owner-only"><span><i style="background:var(--sign)"></i>From colleagues</span><span><i style="background:var(--amber)"></i>Self</span></div>
+        <div id="board"></div>
+      </section>
+
+      <section class="panel owner-only">
+        <h2>Who voted for whom</h2>
+        <p class="sub">Newest first.</p>
+        <input class="filter" type="search" id="feed-filter" placeholder="Filter by voter, nominee or department">
+        <div class="feed" id="feed"></div>
+      </section>
+    </div>
+
+    <div class="tools">
+      <button class="btn ghost" type="button" id="signout-btn">Sign out</button>
+      <button class="btn danger owner-only" type="button" id="reset-btn">Reset all votes (testing only)</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+(function () {
+  var cfg = window.CSW_CONFIG || {};
+  var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+  var $ = function (id) { return document.getElementById(id); };
+  var role = null, rows = [], board = [], showAll = false, prevTotals = {}, channel = null, timer = null, poll = null;
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
+  function ago(t) {
+    var s = Math.round((Date.now() - new Date(t).getTime()) / 1000);
+    if (s < 60) return 'just now'; if (s < 3600) return Math.floor(s / 60) + ' min ago';
+    if (s < 86400) return Math.floor(s / 3600) + ' h ago';
+    return new Date(t).toLocaleString();
+  }
+
+  $('f-login').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    $('a-err').textContent = ''; $('a-btn').disabled = true;
+    var r = await sb.auth.signInWithPassword({ email: $('a-email').value.trim().toLowerCase(), password: $('a-pw').value });
+    $('a-btn').disabled = false;
+    if (r.error) { $('a-err').textContent = /confirm/i.test(r.error.message) ? 'Confirm your email first.' : 'That email and password don\'t match.'; return; }
+    start();
+  });
+
+  async function start() {
+    var s = await sb.auth.getSession();
+    if (!s.data.session) { $('v-login').hidden = false; $('v-dash').hidden = true; return; }
+    var a = await sb.rpc('admin_role');
+    if (a.error || !a.data) { await sb.auth.signOut(); $('v-login').hidden = false; $('v-dash').hidden = true; $('a-err').textContent = 'This account isn\'t an admin.'; return; }
+    role = a.data;
+    document.body.classList.toggle('viewer', role !== 'owner');
+    if (role === 'owner') { $('dash-title').textContent = 'Extra Mile vote: owner view'; $('board-sub').textContent = 'Ranked by votes from colleagues. Self-votes shown separately.'; }
+    $('v-login').hidden = true; $('v-dash').hidden = false;
+    await refresh();
+    subscribe();
+    clearInterval(poll); poll = setInterval(refresh, 30000); // safety net if realtime drops
+  }
+
+  function subscribe() {
+    if (channel) sb.removeChannel(channel);
+    channel = sb.channel('csw-admin')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'vote_ticks' }, queue)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'settings' }, queue)
+      .subscribe(function (status) {
+        var on = status === 'SUBSCRIBED';
+        $('live').classList.toggle('on', on);
+        $('live-text').textContent = on ? 'Live' : (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' ? 'Reconnecting, refreshing every 30s' : 'Connecting…');
+      });
+  }
+  function queue() { clearTimeout(timer); timer = setTimeout(refresh, 400); }
+
+  async function refresh() {
+    var owner = role === 'owner';
+    var calls = [sb.rpc('admin_overview'), sb.rpc(owner ? 'admin_leaderboard' : 'admin_results')];
+    if (owner) calls.push(sb.rpc('admin_vote_rows'));
+    var res = await Promise.all(calls);
+    var err = res.find(function (r) { return r.error; });
+    if (err) { $('live-text').textContent = 'Error: ' + err.error.message; return; }
+    var o = res[0].data;
+    board = res[1].data.map(function (b) {
+      var c = Number(b.colleague_votes), s = owner ? Number(b.self_votes) : 0;
+      return Object.assign({}, b, { colleague_votes: c, self_votes: s, total_votes: owner ? Number(b.total_votes) : c });
+    });
+    rows = owner ? res[2].data : [];
+    $('s-voted').textContent = o.voted;
+    $('s-turnout').textContent = o.staff_total ? Math.round(100 * o.voted / o.staff_total) + '%' : '0%';
+    $('s-reg').textContent = o.registered; $('s-email').textContent = o.with_email; $('s-staff').textContent = o.staff_total;
+    $('open-toggle').checked = !!o.voting_open;
+    $('open-text').textContent = o.voting_open ? 'Voting open' : 'Voting closed';
+    drawBoard(); if (owner) drawFeed();
+  }
+
+  function drawBoard() {
+    var list = board.filter(function (b) { return b.total_votes > 0; });
+    if (!showAll) list = list.slice(0, 15);
+    else list = board;
+    var max = Math.max(1, Math.max.apply(null, board.map(function (b) { return Number(b.total_votes); })));
+    var rank = 0, last = null;
+    $('board').innerHTML = list.length ? list.map(function (b, i) {
+      var c = Number(b.colleague_votes), s = Number(b.self_votes);
+      if (c !== last) { rank = i + 1; last = c; }
+      var changed = prevTotals[b.staff_id] !== undefined && prevTotals[b.staff_id] !== Number(b.total_votes);
+      return '<div class="leader' + (rank <= 3 && c > 0 ? ' top' : '') + (changed ? ' flash' : '') + '">' +
+        '<span class="rank">' + (c > 0 || showAll ? rank : '') + '</span>' +
+        '<span class="who"><strong>' + esc(b.name) + '</strong><small>' + esc(b.department) + ', ' + esc(b.business_unit) + '</small></span>' +
+        '<span class="n">' + c + (s ? '<small>+' + s + ' self</small>' : '') + '</span>' +
+        '<span class="track"><i style="width:' + (100 * c / max) + '%"></i><i class="self" style="width:' + (100 * s / max) + '%"></i></span>' +
+        '</div>';
+    }).join('') : '<p class="sub">No votes yet. The board fills in as ballots arrive.</p>';
+    board.forEach(function (b) { prevTotals[b.staff_id] = Number(b.total_votes); });
+    $('more-btn').textContent = showAll ? 'Show top 15' : 'Show everyone';
+  }
+  $('more-btn').addEventListener('click', function () { showAll = !showAll; drawBoard(); });
+
+  function drawFeed() {
+    var q = $('feed-filter').value.trim().toLowerCase();
+    var byBallot = {}, order = [];
+    rows.forEach(function (r) {
+      if (!byBallot[r.ballot_id]) { byBallot[r.ballot_id] = { r: r, picks: [] }; order.push(r.ballot_id); }
+      byBallot[r.ballot_id].picks.push(r);
+    });
+    var html = order.map(function (id) {
+      var b = byBallot[id], v = b.r;
+      b.picks.sort(function (x, y) { return x.slot - y.slot; });
+      var hay = [v.voter_name, v.voter_department, v.voter_business_unit].concat(b.picks.map(function (p) { return p.nominee_name + ' ' + p.nominee_department; })).join(' ').toLowerCase();
+      if (q && hay.indexOf(q) === -1) return '';
+      return '<div class="ballot"><div class="meta"><strong>' + esc(v.voter_name) + '</strong><time datetime="' + esc(v.voted_at) + '">' + ago(v.voted_at) + '</time></div>' +
+        '<div class="dept">' + esc(v.voter_department) + ', ' + esc(v.voter_business_unit) + '</div><ol>' +
+        b.picks.map(function (p) { return '<li>' + esc(p.nominee_name) + (p.is_self ? '<span class="self">self</span>' : '') + '</li>'; }).join('') +
+        '</ol></div>';
+    }).join('');
+    $('feed').innerHTML = html || '<p class="sub">' + (q ? 'No ballots match that filter.' : 'No ballots yet.') + '</p>';
+  }
+  $('feed-filter').addEventListener('input', drawFeed);
+
+  $('open-toggle').addEventListener('change', async function (e) {
+    var open = e.target.checked;
+    if (!confirm(open ? 'Open voting for all staff now?' : 'Close voting now? Staff who haven\'t voted will be blocked.')) { e.target.checked = !open; return; }
+    var r = await sb.rpc('admin_set_voting', { p_open: open });
+    if (r.error) { alert(r.error.message); e.target.checked = !open; return; }
+    refresh();
+  });
+
+  $('dl-btn').addEventListener('click', async function () {
+    var r = await sb.rpc('admin_vote_rows');
+    if (r.error) return alert(r.error.message);
+    var cols = ['voted_at', 'ballot_id', 'slot', 'is_self', 'voter_id', 'voter_name', 'voter_business_unit', 'voter_department', 'voter_designation', 'voter_location',
+      'nominee_id', 'nominee_name', 'nominee_business_unit', 'nominee_department', 'nominee_designation', 'nominee_location'];
+    var cell = function (v) { v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var csv = '\ufeff' + cols.join(',') + '\n' + r.data.map(function (row) { return cols.map(function (c) { return cell(row[c]); }).join(','); }).join('\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = 'csw2026-votes-' + new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-') + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  $('reset-btn').addEventListener('click', async function () {
+    if (prompt('This deletes every ballot. Type RESET to confirm.') !== 'RESET') return;
+    var r = await sb.rpc('admin_reset_votes');
+    if (r.error) return alert(r.error.message);
+    prevTotals = {}; refresh();
+  });
+
+  $('signout-btn').addEventListener('click', async function () {
+    if (channel) sb.removeChannel(channel); clearInterval(poll);
+    await sb.auth.signOut(); location.reload();
+  });
+
+  setInterval(function () { if (!$('v-dash').hidden && role === 'owner') drawFeed(); }, 60000); // keep "x min ago" fresh
+  start();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+staff_id,name,email,company,business_unit,department,designation,location
+ASH237,Oluwajimi Oshunrinde,oluwajimi.oshunrinde@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Logistics,Logistics Associate,HQ
+ASH235,Ugochukwu Jonathan Nwachukwu,jonathan.nwachukwu@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,Grapics Designer,Hybrid
+ASH233,Tochi Joseph Ahamefula,tochi.ahamefula@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,Videographer/Video Editor,Annex
+ASH232,Oluwabusayomi Sarah Adeyemi,busayo.adeyemi@zentaii.com,Zentaii Asthetics Limited,Zentaii,Marketing,"Brand Manager, Zentaii",HQ / Annex
+ASH231,Mobolaji Ayodeji Oyemade,mobolaji.oyemade@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Finance,Group Chief Financial Officer,Annex
+ASH229,Deborah Iseoluwa Adeoluwa,deborah.adeoluwa@zentaii.com,Zentaii Asthetics Limited,Zentaii,Marketing,Beauty Advisor,HQ
+ASH228,Princess Ijeoma Chukwuka,princess.chukwuka@zentaii.com,Zentaii Asthetics Limited,Zentaii,Marketing,Senior Beauty Advisor,HQ
+ASH227,Oluwafikayomi Oladipupo Obadua,oluwafikayomi.obadua@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Office of the MD, Ashluxury",Business Transformation intern,Annex
+ASH226,Doris Chinwendu Iwuh,doris.iwuh@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Legal and Compliance,Commercial Legal Associate,Annex
+ASH225,Ijeoma Virginia Arum,ijeoma.arum@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Office of the GMD,Group Operating Partner,Annex
+ASH224,Victoria Bunmi Eze,victoria.eze@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,In-house Stylist & Visual Asset Curator,Annex
+ASH223,Cynthia Mofe-Oluwa Adekanye,cynthia.adekanye@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,"Brand Manager, Ashluxe",Annex
+ASH222,Peter Orok Edet-Inwang,peter.edet-inwang@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Logistics,Head of E-commerce,Annex
+ASH221,Tomiwa Qudus Busari,tomiwa.busari@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Finance,Finance Manager,Annex
+ASH220,Ouwadamilare Samson Sanu,damilare.sanu@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Finance,Financial Planning & Analysis Manager,Annex
+ASH219,Matthew Mofe-Oluwa Agboola,matthew.agboola@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Finance,Payable Accountant,Annex
+ASH218,Festus Abiola Uwabor,festus.uwabor@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,E-commerce,Digital Marketer,Annex
+ASH216,Danjuma Enemakwu Mohammed,danjuma.mohammed@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Internal Audit,Internal Auditor,Annex
+ASH215,Nnenna Laura Deji-Lana,nnenna.deji-lana@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Internal Audit,"Head, Internal Audit & Control",Annex
+ASH213,Titilayo Temiwunmi Ema,titilayo.ema@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Finance,Revenue Assurance Accountant,Annex
+ASH209,Oluwatoyosi Esther Oluwatoyinbo,oluwatoyosi.oluwatoyinbo@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,People Success & Culture,People Development and Performance Manager,Annex
+ASH208,Suwebat Omowonuola Abike Okoye,wonuola.okoye@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Office of the MD, Ashluxury","MD, Ashluxury",HQ / Annex
+ASH205,Damilare Emmanuel Jeje,damilare.jeje@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Design,Graphics Designer,Annex
+ASH204,Oluwatosin Elizabeth Idowu,oluwatosin.idowu@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Sales Associate,HQ
+ASH199,Abigail Izam,abigail.izam@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Business Transformation Analyst,Annex
+ASH197,Kolawole Olashile Alabi,kolawole.alabi@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Planning, Merchandizing & Product Performance",Buyer,Annex
+ASH192,Idenala Oluwapelumi Omolua,oluwapelumi.omolua@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,People Success & Culture,Head of People Success and Culture,Annex
+ASH191,Stanley Benjamin Edo,stanley.edo@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Inventory,Runer,HQ
+ASH188,Godswill Nnaemeka Anih,godswill.anih@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Marketing,Marketing Associate,Annex
+ASH187,Faith Chetachi Okereke,faith.okereke@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Planning, Merchandizing & Product Performance","Visual Merchandizer
+Associates",HQ
+ASH186,Oluwapelumi Oluwakemi Gbenoba,oluwapelumi.gbenoba@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Sales Associate,HQ
+ASH185,Oluwafunmbi Julianah Abiona,oluwafunmbi.abiona@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,Communications Associate,Annex
+ASH184,Sandra Oseriemen Akhayere,sandra.akhayere@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Senior Sales Associate,HQ
+ASH181,Ayomide Fatai Adenuga,ayomide.adenuga@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Finance,Finance Executive,Annex
+ASH178,Yetunde Mutiat Sulaiman-Dauda,yetunde.sulaiman-dauda@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Customer Experience,Customer Experience Specialist,Annex
+ASH090,Akorede David Dosu,akorede.dosu@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,Photographer,Annex
+ASH125,Dorcas Samuel,dorcas.samuel@zentaii.com,Zentaii Asthetics Limited,Zentaii,Marketing,Head of Business Zentaii,Annex
+ASH177,Wisdom Chibuike Mike,wisdom.mike@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Sales Associate,HQ
+ASH171,God'spower Ikijim Otoyo,godspower.otoyo@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Admin,Security Supervisor,HQ
+ASH163,David Chinyeaka Obiwulu,david.obiwulu@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,E-commerce,Inventory Analyst,Annex
+ASH157,Nneka Onita,nneka.onita@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,Corporate Communications Manager,Annex
+ASH143,Ugochukwu Otuokere,ugochukwu.otuokere@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Planning, Merchandizing & Product Performance",Data and BI Analysts,Annex
+ASH149,Roheemat Abimbola Saheed,roheemot.saheed@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,People Success & Culture,People Experience & Talent Associate,Annex
+ASH151,Olayinka Awoyemi,olayinka.awoyemi@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Planning, Merchandizing & Product Performance",Junior Commercial Analyst,Annex
+ASH147,Nosa Garrick,nosa.garrick@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Legal and Compliance,"Head of Legal, Nigeria",Annex
+ASH152,Ismaeel Olayiwola,ismaeel.olayiwola@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,IT,IT Support Associate,Annex
+ASH153,Boluwatife Abdulkareem Saka,boluwatife.saka@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,E-commerce,SEO & Email Marketing Associate,Annex
+ASH0142,Samuel Ononiwu,samuel.ononiwu@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,"Brand Associate, Plus 234Labs",Annex
+ASH138,Joseph Umanah,joseph.umanah@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Office of the GMD,EA to the GMD - Administrative Affairs,Annex
+ASH137,Idris Babatunde Hassan,idris.hassan@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Design,Product Designer,Annex
+ASH131,Imoke Egbe Samuel,samuel.imoke@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Logistics,Dispatch rider,HQ
+ASH132,Daniel Adewunmi,daniel.adewumi@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,E-commerce,Product Uploader,Annex
+ASH136,Omoniyi Abubakar Hadams,omoniyi.hadams@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Logistics,Logistics Associate,HQ
+ASH128,Samuel Chinasa Nzemeka,samuel.nzemeka@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Admin,Admin Executive,Annex
+ASH127,Temitope Ogunyemi,temitope.ogunyemi@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Customer Experience,Customer Service Associate,Annex
+ASH130,Joy Awulika Utah,joy.utah@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Sales Associate,HQ
+ASH126,Chikodi Smart Ukwu,chikodi.ukwu@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Sales Associate,HQ
+ASH0124,Ayodele Solomon Badmus,ayodele.badmus@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,IT,IT System Administrator,Annex
+ASH124,Faith Esoghenegbuyota Ese,faith.ese@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Planning, Merchandizing & Product Performance","Head of Planning, Merchandizing & Product Performance",Annex
+ASH123,Ibukun Otubaga,ibukun@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Sales Associate,HQ
+ASH094,Sampson Ibanga Assam,sampson.ibanga@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Logistics,Dispatch rider,HQ
+ASH092,Stella Damilola Owoeye,stella.owoeye@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Planning, Merchandizing & Product Performance",Buyer,Annex
+ASH089,Jesutofunmi Oluwafemi,jesutofunmi.oluwafemi@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,"Planning, Merchandizing & Product Performance","Visual Merchandizer
+Associates",HQ
+ASH084,Julius Okopi,julius.okopi@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,Grapics Designer,Annex
+ASH105,Chinonso Nwangwu,chinonso.nwangwu@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Design,Illustrator,Remote
+ASH063,Gladys Anethua,gladys.omosomi@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Boutique Manager,HQ
+ASH062,Mercy Chukwu,mercy.chukwu@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Sales,Senior Sales Associate,HQ
+ASH047,Oti Obinna Marvellous,oti.obinna@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Design,Product Designer,Remote
+ASH044,Tobi Ogunrinde,tobi.ogunrinde@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Design,Graphics and Visual Designer,Annex
+ASH043,Paul Esan,paul.esan@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Design,Graphics and Visual Designer,Annex
+ASH054,Daniel Bassey,daniel.bassey@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Logistics,Dispatch rider,HQ
+ASH038,Claudia Olejeme,claudia.olejeme@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Logistics,Head of Logistics,Annex
+ASH028,Aremu Folajimi Abdulsamad,folajomi.aremu@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Marketing,Photographer,Annex
+ASH066,Mamud Praise Adams,mamud.adams@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Inventory,Inventory Associate,HQ
+ASH065,Samuel Egu,samuel.egu@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Admin,Admin Assistant,Annex
+ASH024,Samuel Otuneme,samuel.otuneme@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Inventory,Inventory Associate,HQ
+ASH025,Onuh Abuh,abu.onuh@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Inventory,Warehouse Associate,HQ
+ASH017,William Monday Imeh,imeh.william@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Inventory,Inventory and Warehouse Manager,HQ
+ASH003,Boluwatife Komolafe,komolafe.boluwatife@ashcorpgroup.com,Ash-Luxe Nigeria Limited,Ashluxe,Design,Products Design Manager,Annex
+ASH012,Dominic Mudi,dominic.mudi@ashcorpgroup.com,Ashcorp Global Limited,Ashcorp Group,Office of the GMD,Security Personel/ Admin,Annex
+ASH009,Chike Ufomba,chike.ufomba@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,Inventory,Inventory Assistant,HQ
+ASH078,Ezekiel Akinnuoye,ezekiel.akinnuoye@ashcorpgroup.com,Ashluxury Fashion and Beauty Limited,Ashluxury,People Success & Culture,People Operations Manager,Annex
