@@ -17,6 +17,7 @@
   .bar { background: var(--sign); color: #fff; border-radius: 12px; padding: 14px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
     box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 5px #fff; }
   .bar h1 { margin: 0; font-size: 1.5rem; font-weight: 800; flex: 1 1 auto; }
+  .whoami { font-size: .85rem; opacity: .9; }
   .live { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: .9rem; }
   .dot { width: 10px; height: 10px; border-radius: 50%; background: #9AA79E; }
   .live.on .dot { background: var(--amber); box-shadow: 0 0 0 0 rgba(242,183,5,.7); animation: pulse 2s infinite; }
@@ -103,6 +104,7 @@
   <div id="v-dash" hidden>
     <header class="bar">
       <h1 id="dash-title">Extra Mile vote: live results</h1>
+      <span class="whoami" id="whoami"></span>
       <span class="live" id="live"><span class="dot"></span><span id="live-text">Connecting…</span></span>
       <label class="switch"><input type="checkbox" id="open-toggle"> <span id="open-text">Voting closed</span></label>
       <button class="btn light owner-only" type="button" id="dl-btn">Download CSV</button>
@@ -119,7 +121,7 @@
     <div class="grid" id="grid">
       <section class="panel">
         <div class="head"><h2>Leaderboard</h2><button class="btn ghost" type="button" id="more-btn">Show everyone</button></div>
-        <p class="sub" id="board-sub">Ranked by votes from colleagues.</p>
+        <p class="sub" id="board-sub">Ranked by total votes, self-votes included.</p>
         <div class="legend owner-only"><span><i style="background:var(--sign)"></i>From colleagues</span><span><i style="background:var(--amber)"></i>Self</span></div>
         <div id="board"></div>
       </section>
@@ -171,8 +173,9 @@
     var a = await sb.rpc('admin_role');
     if (a.error || !a.data) { await sb.auth.signOut(); $('v-login').hidden = false; $('v-dash').hidden = true; $('a-err').textContent = 'This account isn\'t an admin.'; return; }
     role = a.data;
+    $('whoami').textContent = s.data.session.user.email + (role === 'owner' ? ' (owner)' : ' (results only)');
     document.body.classList.toggle('viewer', role !== 'owner');
-    if (role === 'owner') { $('dash-title').textContent = 'Extra Mile vote: owner view'; $('board-sub').textContent = 'Ranked by votes from colleagues. Self-votes shown separately.'; }
+    if (role === 'owner') { $('dash-title').textContent = 'Extra Mile vote: owner view'; $('board-sub').textContent = 'Ranked by total votes, self-votes included. Ties broken by votes from colleagues.'; }
     $('v-login').hidden = true; $('v-dash').hidden = false;
     await refresh();
     subscribe();
@@ -201,8 +204,10 @@
     if (err) { $('live-text').textContent = 'Error: ' + err.error.message; return; }
     var o = res[0].data;
     board = res[1].data.map(function (b) {
-      var c = Number(b.colleague_votes), s = owner ? Number(b.self_votes) : 0;
-      return Object.assign({}, b, { colleague_votes: c, self_votes: s, total_votes: owner ? Number(b.total_votes) : c });
+      var t = Number(b.total_votes);
+      // Viewer gets totals only; draw them as one bar.
+      var c = owner ? Number(b.colleague_votes) : t, s = owner ? Number(b.self_votes) : 0;
+      return Object.assign({}, b, { colleague_votes: c, self_votes: s, total_votes: t });
     });
     rows = owner ? res[2].data : [];
     $('s-voted').textContent = o.voted;
@@ -220,13 +225,14 @@
     var max = Math.max(1, Math.max.apply(null, board.map(function (b) { return Number(b.total_votes); })));
     var rank = 0, last = null;
     $('board').innerHTML = list.length ? list.map(function (b, i) {
-      var c = Number(b.colleague_votes), s = Number(b.self_votes);
-      if (c !== last) { rank = i + 1; last = c; }
+      var c = Number(b.colleague_votes), s = Number(b.self_votes), t = Number(b.total_votes);
+      var key = role === 'owner' ? t + ':' + c : String(t);
+      if (key !== last) { rank = i + 1; last = key; }
       var changed = prevTotals[b.staff_id] !== undefined && prevTotals[b.staff_id] !== Number(b.total_votes);
-      return '<div class="leader' + (rank <= 3 && c > 0 ? ' top' : '') + (changed ? ' flash' : '') + '">' +
-        '<span class="rank">' + (c > 0 || showAll ? rank : '') + '</span>' +
+      return '<div class="leader' + (rank <= 3 && t > 0 ? ' top' : '') + (changed ? ' flash' : '') + '">' +
+        '<span class="rank">' + (t > 0 || showAll ? rank : '') + '</span>' +
         '<span class="who"><strong>' + esc(b.name) + '</strong><small>' + esc(b.department) + ', ' + esc(b.business_unit) + '</small></span>' +
-        '<span class="n">' + c + (s ? '<small>+' + s + ' self</small>' : '') + '</span>' +
+        '<span class="n">' + t + (s ? '<small>incl. ' + s + ' self</small>' : '') + '</span>' +
         '<span class="track"><i style="width:' + (100 * c / max) + '%"></i><i class="self" style="width:' + (100 * s / max) + '%"></i></span>' +
         '</div>';
     }).join('') : '<p class="sub">No votes yet. The board fills in as ballots arrive.</p>';

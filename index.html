@@ -85,6 +85,11 @@
   .review li b { color: var(--sign); width: 1.2em; }
   .check { width: 56px; height: 56px; margin-bottom: 8px; }
   .foot { margin-top: 18px; font-size: .85rem; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; }
+  .whoami { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: var(--paper);
+    border: 1px solid var(--line); border-left: 4px solid var(--amber); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; font-size: .92rem; line-height: 1.35; }
+  .whoami strong { font-weight: 700; }
+  #who-email { color: var(--muted); word-break: break-all; }
+  .whoami .linkbtn { white-space: nowrap; flex-shrink: 0; }
   .sr { position: absolute; left: -9999px; }
   [hidden] { display: none !important; }
 </style>
@@ -97,6 +102,11 @@
     <p class="lede">Vote for the colleagues who went further than the job asked.</p>
     <div class="stripe" aria-hidden="true"></div>
   </header>
+
+  <div class="whoami" id="whoami" hidden>
+    <span>Signed in as <strong id="who-name"></strong><br><span id="who-email"></span></span>
+    <button type="button" class="linkbtn" id="signout">Sign out</button>
+  </div>
 
   <!-- Loading -->
   <section class="panel" id="v-loading"><p class="sub" style="margin:0">Loading…</p></section>
@@ -206,7 +216,7 @@
     <p class="sub">Thank you. Winners will be announced during Customer Service Week.</p>
   </section>
 
-  <div class="foot"><span>One person, one session, three votes.</span><span><button type="button" class="linkbtn" id="signout" hidden>Sign out</button> <a class="linkbtn" id="admin-link" href="admin.html">Admin</a></span></div>
+  <div class="foot"><span>One person, one session, three votes.</span><a class="linkbtn" id="admin-link" href="admin.html">Admin</a></div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -223,8 +233,9 @@
   var regPick = null;             // staff_id chosen at registration
   var picks = [null, null, null]; // staff_ids
   var recovering = false;
+  var signedIn = false;
 
-  function show(v) { VIEWS.forEach(function (x) { $(x).hidden = x !== v; }); $('signout').hidden = !(v === 'v-pick' || v === 'v-review' || v === 'v-done' || v === 'v-blocked'); window.scrollTo(0, 0); }
+  function show(v) { VIEWS.forEach(function (x) { $(x).hidden = x !== v; }); $('whoami').hidden = !signedIn || !(v === 'v-pick' || v === 'v-review' || v === 'v-done' || v === 'v-blocked'); window.scrollTo(0, 0); }
   function msg(el, text, kind) { el.textContent = text || ''; el.className = 'msg' + (text ? ' show ' + (kind || 'error') : ''); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
   function busy(btn, on, label) { btn.disabled = on; if (label) btn.textContent = label; }
@@ -386,7 +397,7 @@
     await route();
   });
 
-  $('signout').addEventListener('click', async function () { await sb.auth.signOut(); picks = [null, null, null]; show('v-auth'); tab('signin'); });
+  $('signout').addEventListener('click', async function () { await sb.auth.signOut(); signedIn = false; picks = [null, null, null]; show('v-auth'); tab('signin'); });
 
   /* ---------- voting ---------- */
   function label(id) { return id === me.staff_id ? esc(nameOf[id]) + ' <span class="you">(you)</span>' : esc(nameOf[id]); }
@@ -438,10 +449,14 @@
   async function route() {
     if (recovering) { show('v-newpw'); return; }
     var s = await sb.auth.getSession();
-    if (!s.data.session) { show('v-auth'); return; }
+    if (!s.data.session) { signedIn = false; show('v-auth'); return; }
+    signedIn = true;
+    $('who-email').textContent = s.data.session.user.email;
+    $('who-name').textContent = s.data.session.user.email;
     var r = await sb.rpc('my_status');
     if (r.error) return blocked('Something went wrong', errText(r.error));
     me = r.data;
+    if (me.linked) $('who-name').textContent = me.name;
     if (!me.linked) return blocked('Your account isn\'t on the staff list', 'You signed in with an email that doesn\'t match a staff record. Sign out and use your office email, or contact the organisers.');
     if (me.has_voted) return show('v-done');
     if (!me.voting_open) return blocked('Voting isn\'t open yet', 'You\'re registered, ' + me.name.split(' ')[0] + '. Come back here when voting opens and sign in to cast your three votes.');
