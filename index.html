@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
 <title>Extra Mile vote | Customer Service Week 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&display=swap" rel="stylesheet">
@@ -163,7 +164,8 @@
   <!-- Check email -->
   <section class="panel" id="v-checkmail" hidden>
     <h2>Check your email</h2>
-    <p class="sub">We sent a confirmation link to <strong id="cm-email"></strong>. Open it on this device to finish registering, then sign in. If it isn't there in a few minutes, check spam or junk.</p>
+    <p class="sub" id="cm-lead">We sent a confirmation link to <strong id="cm-email"></strong>.</p>
+    <p class="sub">Opening the link signs you in. If it isn't in your inbox in a few minutes, check spam or junk.</p>
     <button class="btn ghost" type="button" id="cm-back">Back to sign in</button>
   </section>
 
@@ -239,6 +241,8 @@
   function msg(el, text, kind) { el.textContent = text || ''; el.className = 'msg' + (text ? ' show ' + (kind || 'error') : ''); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
   function busy(btn, on, label) { btn.disabled = on; if (label) btn.textContent = label; }
+  // "god'spower" ~ "godspower", "edet inwang" ~ "Edet-Inwang", accents ignored
+  function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[-_.]/g, ' ').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim(); }
   function errText(e) { return ((e && e.message) || String(e || 'Something went wrong.')).replace(/^(Exception|Error):\s*/i, ''); }
 
   /* ---------- password reveal + match ---------- */
@@ -274,11 +278,11 @@
     var input = opts.mount.querySelector('input'), ul = opts.mount.querySelector('ul');
     var active = -1, current = [];
     function draw() {
-      var q = input.value.trim().toLowerCase();
+      var q = norm(input.value);
       current = opts.options().filter(function (o) {
         if (!q) return true;
-        var n = o.name.toLowerCase();
-        return n.split(/\s+/).some(function (w) { return w.indexOf(q) === 0; }) || n.indexOf(q) !== -1;
+        var n = norm(o.name);
+        return n.indexOf(q) !== -1 || n.replace(/ /g, '').indexOf(q.replace(/ /g, '')) !== -1;
       });
       if (active >= current.length) active = current.length - 1;
       ul.innerHTML = current.length
@@ -342,6 +346,13 @@
       if (r === 'email_mismatch') throw new Error('That email doesn\'t match the staff record for ' + nameOf[regPick] + '. Use your office email, or contact the organisers.');
       if (r === 'no_email_on_file') throw new Error('There\'s no email on file for ' + nameOf[regPick] + ' yet. Contact the organisers.');
       if (r === 'already_registered') { tab('signin'); $('si-email').value = email; throw new Error('You\'re already registered. Sign in instead.'); }
+      if (r === 'pending_confirmation') {
+        var rs = await sb.auth.resend({ type: 'signup', email: email, options: { emailRedirectTo: location.origin + location.pathname } });
+        if (rs.error) throw rs.error;
+        $('cm-email').textContent = email;
+        $('cm-lead').innerHTML = 'You started registering before but never confirmed. We sent a fresh link to <strong>' + esc(email) + '</strong>.';
+        show('v-checkmail'); return;
+      }
       if (r !== 'ok') throw new Error('Choose your name from the list.');
       var su = await sb.auth.signUp({ email: email, password: pw, options: { emailRedirectTo: location.origin + location.pathname } });
       if (su.error) throw su.error;
@@ -349,7 +360,7 @@
         tab('signin'); $('si-email').value = email; throw new Error('You\'re already registered. Sign in instead.');
       }
       if (su.data.session) { await route(); return; } // email confirmation is off (not recommended)
-      $('cm-email').textContent = email;
+      $('cm-lead').innerHTML = 'We sent a confirmation link to <strong>' + esc(email) + '</strong>.';
       show('v-checkmail');
     } catch (err) { msg($('auth-msg'), errText(err)); }
     finally { busy(btn, false, 'Register'); }
@@ -439,7 +450,10 @@
     var btn = $('cast-btn'); busy(btn, true, 'Casting…'); $('back-btn').disabled = true;
     var r = await sb.rpc('cast_votes', { p_nominees: picks });
     busy(btn, false, 'Cast my votes'); $('back-btn').disabled = false;
-    if (r.error) return msg($('cast-msg'), errText(r.error));
+    if (r.error) {
+      if (/already voted/i.test(r.error.message)) return show('v-done');
+      return msg($('cast-msg'), errText(r.error));
+    }
     show('v-done');
   });
 
@@ -475,7 +489,9 @@
     renderRegName();
     if (/error_description=/.test(location.hash)) {
       var d = decodeURIComponent((location.hash.match(/error_description=([^&]+)/) || [])[1] || '').replace(/\+/g, ' ');
-      show('v-auth'); tab('signin'); msg($('auth-msg'), 'That link didn\'t work: ' + d + '. Request a new one below.');
+      show('v-auth'); tab('signin');
+      msg($('auth-msg'), 'That link has expired or was already used (some email systems open links automatically). If you already confirmed, just sign in. Otherwise enter your email and press Resend confirmation email.', 'info');
+      $('resend-btn').hidden = false;
       history.replaceState(null, '', location.pathname); return;
     }
     // Give supabase-js a moment to process confirmation / recovery links in the URL.
